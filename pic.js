@@ -30,9 +30,16 @@ $(function() {
     function initGrid() {
         var grid = [];
         for (var i = 0; i < DIFFICULTY * DIFFICULTY; i++) {
-            grid.push(0);
+            grid.push(Math.floor(Math.random() * 4) * 90);
         }
         return grid;
+    }
+
+    //use grid degree values to rotate all cells at start
+    function rotateCells() {
+        for (var id = 0; id < DIFFICULTY * DIFFICULTY; id++) {
+            $('#' + id).css('transform', 'rotate(' + grid[id] + 'deg)');
+        }
     }
 
     //rotate when clicked
@@ -40,12 +47,24 @@ $(function() {
         var id = $(this).attr('id');
         grid[id] = (grid[id] + 90) % 360;
         $('#' + id).css('transform', 'rotate(' + grid[id] + 'deg)');
+        checkWin();
     });
    
-
+    function checkWin() {
+        var won = true;
+        for (var id = 0; id < DIFFICULTY * DIFFICULTY; id++) {
+            if (grid[id] !== 0) {
+                won = false;
+            }
+        }
+        if (won === true) {
+            alert('won');
+        }
+    }
    
 
     slicePicture();
+    rotateCells();
 
     console.log(grid)
     
