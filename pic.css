@@ -1,0 +1,15 @@
+
+
+#picture {
+    width: 600px;
+    height: 600px;
+
+    
+}
+
+.cell {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
