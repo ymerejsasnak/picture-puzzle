@@ -3,10 +3,17 @@
 $(function() {
 
     var PIC_SIZE = 600;
-    var DIFFICULTY = 4;
-    var CELL_SIZE = PIC_SIZE / DIFFICULTY;
+    var CELL_SIZE = PIC_SIZE / difficulty;
 
-   
+    //difficulty levels
+    var LEVEL = {'VERY_EASY': 3,
+                  'EASY': 4,
+                  'NORMAL': 5,
+                  'HARD': 6,
+                  'VERY_HARD': 8,
+                  'SUPER_HARD': 10}
+
+    var difficulty = LEVEL['EASY'];
     var pictureDiv = $('#picture');
     var grid = initGrid();
     
@@ -14,14 +21,14 @@ $(function() {
 
     function slicePicture() {
         var cell;
-        for(var row = 0; row < DIFFICULTY; row++) {
-            for (var col = 0; col < DIFFICULTY; col++) {
-                cell = $('<div id="' + (col + DIFFICULTY * row) + '" class="cell"></div>')
+        for(var row = 0; row < difficulty; row++) {
+            for (var col = 0; col < difficulty; col++) {
+                cell = $('<div id="' + (col + difficulty * row) + '" class="cell"></div>')
                 cell.css({'background': 'url("photo.JPG")', 
                           'background-size': PIC_SIZE + 'px ' + PIC_SIZE + 'px',
-                          'background-position': (-PIC_SIZE / DIFFICULTY * col) + 'px ' + (-PIC_SIZE / DIFFICULTY * row) + 'px'});
-                cell.width(PIC_SIZE / DIFFICULTY);
-                cell.height(PIC_SIZE / DIFFICULTY);
+                          'background-position': (-PIC_SIZE / difficulty * col) + 'px ' + (-PIC_SIZE / difficulty * row) + 'px'});
+                cell.width(PIC_SIZE / difficulty);
+                cell.height(PIC_SIZE / difficulty);
                 pictureDiv.append(cell);
             }
         }
@@ -29,7 +36,7 @@ $(function() {
 
     function initGrid() {
         var grid = [];
-        for (var i = 0; i < DIFFICULTY * DIFFICULTY; i++) {
+        for (var i = 0; i < difficulty * difficulty; i++) {
             grid.push(Math.floor(Math.random() * 4) * 90);
         }
         return grid;
@@ -37,7 +44,7 @@ $(function() {
 
     //use grid degree values to rotate all cells at start
     function rotateCells() {
-        for (var id = 0; id < DIFFICULTY * DIFFICULTY; id++) {
+        for (var id = 0; id < difficulty * difficulty; id++) {
             $('#' + id).css('transform', 'rotate(' + grid[id] + 'deg)');
         }
     }
@@ -49,28 +56,30 @@ $(function() {
         $('#' + id).css('transform', 'rotate(' + grid[id] + 'deg)');
         checkWin();
     });
+
+    //reset game when changing difficulty
+    $('#difficulty').on('change', function() {
+        $('.cell').remove();
+        difficulty = LEVEL[$(this).val()];
+        grid = initGrid();
+        slicePicture();
+        rotateCells();
+    });
    
     function checkWin() {
         var won = true;
-        for (var id = 0; id < DIFFICULTY * DIFFICULTY; id++) {
+        for (var id = 0; id < difficulty * difficulty; id++) {
             if (grid[id] !== 0) {
                 won = false;
             }
         }
         if (won === true) {
-            alert('won');
+            alert('won'); //temp crap
         }
     }
    
 
     slicePicture();
     rotateCells();
-
-    console.log(grid)
-    
-
-
-
-    
 
 });
