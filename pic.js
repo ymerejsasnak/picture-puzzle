@@ -35,6 +35,12 @@ $(function() {
         return grid;
     }
 
+    //rotate when clicked
+    $('#picture').on('click', '.cell', function() {
+        var id = $(this).attr('id');
+        grid[id] = (grid[id] + 90) % 360;
+        $('#' + id).css('transform', 'rotate(' + grid[id] + 'deg)');
+    });
    
 
    
