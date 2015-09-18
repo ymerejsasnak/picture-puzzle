@@ -15,7 +15,7 @@ $(function() {
 
     var difficulty = LEVEL['EASY'];
     var pictureDiv = $('#picture');
-    var grid = initGrid();
+    var grid;
     var image = "photo.JPG"; //default image
     
     
@@ -90,7 +90,6 @@ $(function() {
     }
    
 
-    slicePicture(image);
-    rotateCells();
+    initGame();
 
 });
