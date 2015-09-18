@@ -16,15 +16,16 @@ $(function() {
     var difficulty = LEVEL['EASY'];
     var pictureDiv = $('#picture');
     var grid = initGrid();
+    var image = "photo.JPG"; //default image
     
     
 
-    function slicePicture() {
+    function slicePicture(img) {
         var cell;
         for(var row = 0; row < difficulty; row++) {
             for (var col = 0; col < difficulty; col++) {
                 cell = $('<div id="' + (col + difficulty * row) + '" class="cell"></div>')
-                cell.css({'background': 'url("photo.JPG")', 
+                cell.css({'background': 'url("' + img + '")', 
                           'background-size': PIC_SIZE + 'px ' + PIC_SIZE + 'px',
                           'background-position': (-PIC_SIZE / difficulty * col) + 'px ' + (-PIC_SIZE / difficulty * row) + 'px'});
                 cell.width(PIC_SIZE / difficulty);
@@ -59,12 +60,22 @@ $(function() {
 
     //reset game when changing difficulty
     $('#difficulty').on('change', function() {
-        $('.cell').remove();
         difficulty = LEVEL[$(this).val()];
-        grid = initGrid();
-        slicePicture();
-        rotateCells();
+        initGame();
     });
+
+    //load image from url when button clicked and reset game
+    $('#btn').on('click', function() {
+        image = $('#imagename').val();
+        initGame();       
+    });
+
+    function initGame(){
+        $('.cell').remove();
+        grid = initGrid();
+        slicePicture(image);
+        rotateCells();
+    }
    
     function checkWin() {
         var won = true;
@@ -74,12 +85,12 @@ $(function() {
             }
         }
         if (won === true) {
-            alert('won'); //temp crap
+            alert('YOU DID IT!'); //temp crap
         }
     }
    
 
-    slicePicture();
+    slicePicture(image);
     rotateCells();
 
 });
